@@ -1,0 +1,66 @@
+const express = require("express");
+const upload = require("../../middleware/upload");
+const clgRegister = require("./controllers/clgRegister");
+const clgLogin = require("./controllers/clgLogin");
+const clgDashboard = require("./controllers/clgDashboard");
+const clgauth = require("../../middleware/clgauth");
+const createModule = require("./controllers/module/createModule");
+const createEvent = require("./controllers/event/createEvent");
+const updateModule = require("./controllers/module/updateModule");
+const delModule = require("./controllers/module/delModule");
+const getModuleById = require("./controllers/module/getModuleById");
+const getEventById = require("./controllers/event/getEventById");
+const updateEvent = require("./controllers/event/updateEvent");
+const delEvent = require("./controllers/event/delEvent");
+const uploadMiddleware = require("../../middleware/upload");
+const getCollegeById = require("./controllers/getCollege");
+const createGroup = require("./controllers/groups/createGroup");
+const updateGroup = require("./controllers/groups/updateGroup");
+const delGroup = require("../std/controllers/groups/delGroup");
+const getGroupById = require("./controllers/groups/getGroupById");
+const getAllPosts = require("./controllers/posts/getAllPost");
+const getPostById = require("./controllers/posts/getPostById");
+const createPost = require("./controllers/posts/createPost");
+const updatePost = require("./controllers/posts/updatePost");
+const deletePost = require("./controllers/posts/delPost");
+const getAllComment = require("./controllers/comments/getAllComment");
+const getCommentById = require("./controllers/comments/getCommentById");
+const createComment = require("./controllers/comments/createComment");
+const updateComment = require("./controllers/comments/updateComment");
+const deleteComment = require("./controllers/comments/delComment");
+const addModerator = require("./controllers/groups/addMod");
+const clgRouter = express.Router();
+
+clgRouter.post("/register", upload, clgRegister);
+clgRouter.post("/login", clgLogin);
+clgRouter.get("/getCollege/:id", getCollegeById);
+
+clgRouter.use(clgauth);
+clgRouter.get("/dashboard", clgDashboard);
+clgRouter.get("/module/:moduleId", getModuleById);
+clgRouter.post("/createModule", uploadMiddleware, createModule);
+clgRouter.patch("/updateModule/:moduleId", uploadMiddleware, updateModule);
+clgRouter.delete("/deleteModule/:moduleId", delModule);
+clgRouter.get("/event/:id", getEventById);
+clgRouter.post("/createEvent", uploadMiddleware, createEvent);
+clgRouter.patch("/updateEvent/:id", uploadMiddleware, updateEvent);
+clgRouter.delete("/deleteEvent/:eventId", delEvent);
+clgRouter.get("/group/:groupId", getGroupById);
+clgRouter.post("/createGroup", uploadMiddleware, createGroup);
+clgRouter.patch("/updateGroup/:groupId", uploadMiddleware, updateGroup);
+clgRouter.delete("/deleteGroup/:groupId", delGroup);
+clgRouter.get("/addMod/:groupId/:userId", addModerator);
+//post
+clgRouter.get("/post", getAllPosts);
+clgRouter.get("/post/:postId", getPostById);
+clgRouter.post("/createPost/:groupId", createPost);
+clgRouter.patch("/updatePost", updatePost);
+clgRouter.delete("/delPost", deletePost);
+
+//comment
+clgRouter.get("/comment", getAllComment);
+clgRouter.get("/comment/:commentId", getCommentById);
+clgRouter.post("/:groupId/:postId/createComment", createComment);
+clgRouter.patch("/updateComment", updateComment);
+clgRouter.delete("/delComment", deleteComment);
+module.exports = clgRouter;

@@ -1,0 +1,34 @@
+const express = require("express");
+const adminauth = require("../../middleware/adminauth");
+const adminDashboard = require("./controllers/adminDashboard");
+const getModuleById = require("./controllers/module/getModuleById");
+const uploadMiddleware = require("../../middleware/upload");
+const createModule = require("./controllers/module/createModule");
+const updateModule = require("./controllers/module/updateModule");
+const delModule = require("./controllers/module/delModule");
+const getEventById = require("./controllers/event/getEventById");
+const createEvent = require("./controllers/event/createEvent");
+const updateEvent = require("./controllers/event/updateEvent");
+const delEvent = require("./controllers/event/delEvent");
+const getGroupById = require("./controllers/groups/getGroupById");
+const createGroup = require("./controllers/groups/createGroup");
+const updateGroup = require("./controllers/groups/updateGroup");
+const delGroup = require("./controllers/groups/delGroup");
+const adminRouter = express.Router();
+
+adminRouter.use(adminauth);
+adminRouter.get("/dashboard", adminDashboard);
+adminRouter.get("/module/:moduleId", getModuleById);
+adminRouter.post("/createModule", uploadMiddleware, createModule);
+adminRouter.patch("/updateModule/:moduleId", uploadMiddleware, updateModule);
+adminRouter.delete("/deleteModule/:moduleId", delModule);
+adminRouter.get("/event/:id", getEventById);
+adminRouter.post("/createEvent", uploadMiddleware, createEvent);
+adminRouter.patch("/updateEvent/:id", uploadMiddleware, updateEvent);
+adminRouter.delete("/deleteEvent/:eventId", delEvent);
+adminRouter.get("/group/:groupId", getGroupById);
+adminRouter.post("/createGroup", uploadMiddleware, createGroup);
+adminRouter.patch("/updateGroup/:groupId", uploadMiddleware, updateGroup);
+adminRouter.delete("/deleteGroup/:groupId", delGroup);
+
+module.exports = adminRouter;
